@@ -1,2 +1,3 @@
 group_vars/all.yml
 roles/zabbix/vars/main.yml
+hosts
