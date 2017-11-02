@@ -1,0 +1,21 @@
+---
+- name: Install zabbix repository 3.4 - CentOS/RHEL 7
+  yum:
+    name: http://repo.zabbix.com/zabbix/3.4/rhel/7/x86_64/zabbix-release-3.4-1.el7.centos.noarch.rpm
+    state: present
+  when: "ansible_os_family == 'RedHat' and ansible_distribution_major_version == '7'"
+
+- name: Install zabbix-agent
+  yum: name={{ item }} enablerepo=zabbix state=latest
+  with_items:
+    - zabbix-agent
+
+- name: disabled zabbix repository
+  lineinfile: dest=/etc/yum.repos.d/zabbix.repo regexp='^enabled' line="enabled=0"
+
+- name: Set zabbix_agent.conf from j2 template.
+  template:
+    src: zabbix_agentd.j2
+    dest: /etc/zabbix/zabbix_agentd.conf
+  notify: restart zabbix-agent
+

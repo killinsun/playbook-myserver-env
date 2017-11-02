@@ -1,0 +1,8 @@
+---
+- import_playbook: zabbix-server.yml
+- import_playbook: fluentd-server.yml
+- import_playbook: gateway.yml
+- import_playbook: haproxy.yml
+- import_playbook: web-server.yml
+- import_playbook: dns-server.yml
+

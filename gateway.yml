@@ -1,0 +1,6 @@
+---
+- hosts: gateway
+  become: yes
+  roles:
+    - fluentd
+    - zabbix-agent

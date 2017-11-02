@@ -1,0 +1,42 @@
+# td-agent.conf settings for web-server
+## Input
+
+# Apache access log
+<source>
+        type tail
+        path /var/log/httpd/wordpress-access_log
+        format ltsv
+        pos_file /var/log/td-agent/tmp/apache.access.wordpress.log.pos
+        tag apache.access.wordpress
+</source>
+
+<source>
+        type tail
+        path /var/log/httpd/photoblog-access_log
+        format ltsv
+        pos_file /var/log/td-agent/tmp/apache.access.photoblog.log.pos
+        tag apache.access.photoblog
+</source>
+
+## Output
+
+<match apache.access.*>
+        type copy
+        <store>
+                type file
+                path /var/log/td-agent/apache.acess
+                time_slice_format %Y%m%d
+        </store>
+        <store>
+                type forward
+                send_timeout 60s
+                recover_wait 10s
+                heartbeat_interval 1s
+                <server>
+                        name fluentd.killinsun.com
+                        host 192.168.22.32
+                        port 8888
+                </server>
+        </store>
+</match>
+

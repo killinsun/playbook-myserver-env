@@ -1,0 +1,7 @@
+---
+# Install httpd
+- name: install httpd
+  yum: name=httpd state=latest
+
+- name: start httpd and enabled
+  systemd: name=httpd state=started enabled=yes
