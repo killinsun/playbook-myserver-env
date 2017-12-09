@@ -40,6 +40,28 @@
   shell: curl -L https{{ colon }}//toolbelt.treasuredata.com/sh/install-redhat-td-agent2.sh | sh 
   when: res|changed
 
+- name: Put td-agent conf slave servers
+  template:
+    src: td-agent.conf.j2
+    dest: /etc/td-agent/td-agent.conf
+  when: ansible_hostname != "fluentd"
+
+- name: Change specify log files group owner.
+  file:
+    dest: "{{ item.path }}"
+    mode: 740
+    group: root
+  with_items: "{{ fluentd_input }}"
+  when: ansible_hostname != "fluentd"
+
+- name: Put td-agent conf master server
+  copy:
+    src: ../files/td-agent.conf
+    dest: /etc/td-agent/td-agent.conf
+    backup: yes
+
+    
+  when: ansible_hostname == "fluentd"
 
 - name: Change joins group for td-agent user 
   user:

@@ -1,0 +1,7 @@
+fluentd_input:
+- { type: "tail", path: "/var/log/zabbix/zabbix_server.log", format: "none", posfile: "/var/log/td-agent/zabbix.server.log.pos", tag: "zabbix.server" }
+- { type: "tail", path: "/var/log/zabbix/zabbix_agentd.log", format: "syslog", posfile: "/var/log/td-agent/zabbix.agentd.log.pos", tag: "zabbix.agentd" }
+
+fluentd_output:
+- { match_tag: "zabbix.*", match_path: "/var/log/td-agent/zabbix.log" } 
+

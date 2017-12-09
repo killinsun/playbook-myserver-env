@@ -4,3 +4,4 @@
   roles:
     - fluentd
     - zabbix-agent
+    - vim8

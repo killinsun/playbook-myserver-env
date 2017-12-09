@@ -3,3 +3,4 @@
   become: yes
   roles:
     - fluentd
+    - vim8

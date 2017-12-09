@@ -1,0 +1,7 @@
+fluentd_input:
+- { type: "tail", path: "/var/log/httpd/wordpress-access_log", format: "syslog", posfile: "/var/log/td-agent/apache.access.wordpress.log.pos", tag: "apache.access.wordpress" }
+- { type: "tail", path: "/var/log/httpd/photoblog-accesslog", format: "syslog", posfile: "/var/log/td-agent/apache.access.photoblog.log.pos", tag: "apache.access.photoblog" }
+
+fluentd_output:
+- { match_tag: "apache.access.*", match_path: "/var/log/td-agent/apache.access" } 
+
